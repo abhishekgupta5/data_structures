@@ -61,6 +61,19 @@ int max(node* root){
     return max(root->right);
     }
 
+int height(node* root){
+    if (root == NULL){
+        return -1;
+        }
+    int left_height = height(root->left);
+    int right_height = height(root->right);
+
+    if (left_height > right_height)
+        return left_height + 1;
+    else
+        return right_height + 1;
+    }
+
 int main(){
 node* root = NULL;
 root = insert(root, 15);
@@ -72,8 +85,13 @@ root = insert(root, 25);
 
 int minimum = min(root);
 int maximum = max(root);
+
+int h = height(root);
+
 cout<<"Min element: "<<minimum<<endl;
 cout<<"Max element: "<<maximum<<endl;
+cout<<"Height of BST: "<<h<<endl;
+
 int number;
 cout<<"Enter number to search in BST: ";
 cin>>number;
