@@ -36,6 +36,31 @@ bool search(node* root, int data){
     else return search(root->right, data);
     }
 
+//Iterative method to find min in BST
+int min(node* root){
+    if (root == NULL){
+        cout<<"Empty tree."<<endl;
+        return -1;
+        }
+    while(root->left != NULL){
+        root = root->left;
+        }
+    return root->data;
+    }
+
+//Recursive method to find max in BST
+int max(node* root){
+    if (root == NULL){
+        cout<<"Empty tree."<<endl;
+        return -1;
+        }
+    else if (root->right == NULL){
+        return root->data;
+        }
+    //Search in right subtree
+    return max(root->right);
+    }
+
 int main(){
 node* root = NULL;
 root = insert(root, 15);
@@ -44,6 +69,11 @@ root = insert(root, 20);
 root = insert(root, 18);
 root = insert(root, 30);
 root = insert(root, 25);
+
+int minimum = min(root);
+int maximum = max(root);
+cout<<"Min element: "<<minimum<<endl;
+cout<<"Max element: "<<maximum<<endl;
 int number;
 cout<<"Enter number to search in BST: ";
 cin>>number;
