@@ -7,10 +7,19 @@ struct node{
     node *right;
     };
 
-node* findMin(node *root){
-    while(root->left != NULL){
+
+node* find(node* root, int data){ //O(h)
+    if (root == NULL) return NULL;
+    else if (root->data == data) return root;
+    else if (root->data < data) return find(root->right, data);
+    else return find(root->left, data);
+    }
+
+
+node* findMin(node* root){ //O(h)
+    if (root == NULL) return NULL;
+    while(root->left != NULL)
         root = root->left;
-        }
     return root;
     }
 
@@ -70,6 +79,33 @@ node* insert(node *root, int data){
     return root;
     }
 
+
+node* getSuccessor(node* root, int data){ //O(h)
+    //Search a node in BST is O(h)
+    node* current = find(root, data);
+    if (current == NULL){
+        return NULL;
+        }
+    //Case 1: Node has right sub tree
+    if (current->right != NULL){
+        return findMin(current->right);
+        }
+    //Case 2: No right subtree
+    else{
+        node* successor = NULL;
+        node* ancestor = root;
+        while(ancestor != current){
+            if (current->data < ancestor->data){
+                successor = ancestor;
+                ancestor = ancestor->left;
+                }
+            else
+                ancestor = ancestor->right;
+            }
+        return successor;
+        }
+    }
+
 main(){
     node* root = NULL;
     root = insert(root, 5);
@@ -91,6 +127,9 @@ main(){
     inorder(root);
     cout<<endl;
 
+    cout<<"Inorder successor of 1: "<<getSuccessor(root, 1)->data<<endl;
+    cout<<"Inorder successor of 3: "<<getSuccessor(root, 3)->data<<endl;
+    cout<<"Inorder successor of 4: "<<getSuccessor(root, 4)->data<<endl;
     root = del(root, 10);
     cout<<"Inorder after deleting 10: ";
     inorder(root);
